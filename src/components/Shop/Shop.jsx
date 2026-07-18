@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useProfileStore } from '../../store/profileStore';
 import { supabase } from '../../lib/supabase';
+import {
+  IconSparkles, IconImage, IconGem, IconShoppingBag, IconCoins,
+  IconSearch, IconPalette, IconTv, IconPenLine, IconMessage,
+  IconLightbulb, IconCheck, CrownIcon
+} from '../Icons';
+
+const CategoryIcon = ({ id, size = 16 }) => {
+  if (id === 'profile_effect') return <IconSparkles size={size} />;
+  if (id === 'avatar_border') return <IconImage size={size} />;
+  if (id === 'title_effect') return <CrownIcon size={size} color="currentColor" />;
+  return <IconPackage size={size} />;
+};
 
 export default function Shop() {
   const profile = useProfileStore((state) => state.profile);
@@ -25,7 +37,6 @@ export default function Shop() {
         .select('*')
         .eq('is_active', true)
         .order('category');
-
       if (error) throw error;
       setShopItems(data || []);
     } catch (error) {
@@ -62,169 +73,151 @@ export default function Shop() {
   };
 
   const categories = [
-    { id: 'profile_effect', name: 'Profile Effects', icon: '✨' },
-    { id: 'avatar_border', name: 'Avatar Borders', icon: '🖼️' },
-    { id: 'title_effect', name: 'Title Effects', icon: '👑' },
+    { id: 'profile_effect', name: 'Profile Effects', Icon: IconSparkles },
+    { id: 'avatar_border',  name: 'Avatar Borders',  Icon: IconImage },
+    { id: 'title_effect',   name: 'Title Effects',   Icon: CrownIcon },
   ];
 
   const filteredItems = shopItems.filter((item) => item.category === selectedCategory);
-
   const userInventoryIds = profile?.user_inventory?.map((inv) => inv.shop_item_id) || [];
-  const equippedItemIds = profile?.user_inventory
-    ?.filter((inv) => inv.is_equipped)
-    .map((inv) => inv.shop_item_id) || [];
-
-  const itemOwned = (itemId) => userInventoryIds.includes(itemId);
-  const itemEquipped = (itemId) => equippedItemIds.includes(itemId);
-  const getInventoryItemId = (itemId) =>
-    profile?.user_inventory?.find((inv) => inv.shop_item_id === itemId)?.id;
+  const equippedItemIds  = profile?.user_inventory?.filter((inv) => inv.is_equipped).map((inv) => inv.shop_item_id) || [];
+  const itemOwned     = (id) => userInventoryIds.includes(id);
+  const itemEquipped  = (id) => equippedItemIds.includes(id);
+  const getInventoryItemId = (id) => profile?.user_inventory?.find((inv) => inv.shop_item_id === id)?.id;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', padding: '24px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">🛍️ AniEmpire Shop</h1>
-          <p className="text-slate-300">Customize your profile and earn exclusive items</p>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: '2.2rem', fontFamily: 'var(--font-heading)', color: 'var(--gold)', marginBottom: 8 }}>
+            <IconShoppingBag size={32} color="var(--gold)" />
+            AniEmpire Shop
+          </h1>
+          <p style={{ color: 'var(--text-secondary)' }}>Customize your profile and earn exclusive items</p>
         </div>
 
         {/* Credits Display */}
-        <div className="bg-gradient-to-r from-yellow-500/20 to-amber-500/20 border border-yellow-500/50 rounded-2xl p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-slate-300 text-sm mb-1">Your Credits Balance</p>
-              <p className="text-4xl font-bold text-yellow-300">{profile?.credits || 0}</p>
-            </div>
-            <div className="text-6xl">💰</div>
+        <div className="glass-panel" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', marginBottom: 28, border: '1px solid var(--border-active)', background: 'var(--gold-glow-soft)' }}>
+          <div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', marginBottom: 4, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Credits Balance</p>
+            <p style={{ fontSize: '2.4rem', fontWeight: 800, color: 'var(--gold)', fontFamily: 'var(--font-heading)' }}>{profile?.credits || 0}</p>
+          </div>
+          <div style={{ opacity: 0.6 }}>
+            <IconCoins size={52} color="var(--gold)" />
           </div>
         </div>
 
         {/* Category Tabs */}
-        <div className="mb-8 flex gap-3 overflow-x-auto pb-2">
-          {categories.map((category) => (
+        <div style={{ display: 'flex', gap: 10, marginBottom: 28, overflowX: 'auto', paddingBottom: 4 }}>
+          {categories.map(({ id, name, Icon }) => (
             <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category.id)}
-              className={`px-6 py-3 rounded-lg font-bold whitespace-nowrap transition-all ${
-                selectedCategory === category.id
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
-                  : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
-              }`}
+              key={id}
+              onClick={() => setSelectedCategory(id)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '10px 20px',
+                borderRadius: 'var(--radius-full)',
+                border: `1px solid ${selectedCategory === id ? 'var(--gold)' : 'var(--border-default)'}`,
+                background: selectedCategory === id ? 'var(--gold)' : 'var(--bg-card)',
+                color: selectedCategory === id ? 'var(--bg-primary)' : 'var(--text-secondary)',
+                fontWeight: 700, whiteSpace: 'nowrap', cursor: 'pointer',
+                transition: 'all var(--transition-fast)',
+              }}
             >
-              {category.icon} {category.name}
+              <Icon size={15} color={selectedCategory === id ? 'var(--bg-primary)' : 'currentColor'} />
+              {name}
             </button>
           ))}
         </div>
 
         {/* Purchase Message */}
         {purchaseMessage && (
-          <div
-            className={`mb-6 p-4 rounded-lg border ${
-              purchaseMessage.type === 'success'
-                ? 'bg-green-500/20 border-green-500/50 text-green-300'
-                : 'bg-red-500/20 border-red-500/50 text-red-300'
-            }`}
-          >
+          <div style={{
+            marginBottom: 20, padding: '12px 16px', borderRadius: 'var(--radius-md)',
+            background: purchaseMessage.type === 'success' ? 'rgba(69,163,94,0.15)' : 'rgba(217,59,59,0.15)',
+            border: `1px solid ${purchaseMessage.type === 'success' ? 'var(--green)' : 'var(--red)'}`,
+            color: purchaseMessage.type === 'success' ? 'var(--green)' : 'var(--red)',
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <IconCheck size={16} />
             {purchaseMessage.text}
           </div>
         )}
 
         {/* Items Grid */}
         {isLoading ? (
-          <div className="flex items-center justify-center min-h-96">
-            <div className="text-white text-xl">Loading items...</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 300 }}>
+            <p style={{ color: 'var(--text-muted)' }}>Loading items…</p>
           </div>
         ) : filteredItems.length === 0 ? (
-          <div className="flex items-center justify-center min-h-96">
-            <div className="text-center">
-              <p className="text-4xl mb-2">🔍</p>
-              <p className="text-slate-400">No items available in this category</p>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 300, gap: 12 }}>
+            <IconSearch size={40} color="var(--text-muted)" />
+            <p style={{ color: 'var(--text-muted)' }}>No items available in this category</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 20 }}>
             {filteredItems.map((item) => {
-              const owned = itemOwned(item.id);
+              const owned    = itemOwned(item.id);
               const equipped = itemEquipped(item.id);
-              const inventoryItemId = getInventoryItemId(item.id);
-
+              const invId    = getInventoryItemId(item.id);
               return (
-                <div
-                  key={item.id}
-                  className="bg-slate-800/80 backdrop-blur border border-purple-500/20 rounded-2xl p-6 hover:border-purple-400/50 transition-all hover:shadow-lg hover:shadow-purple-500/20"
-                >
-                  {/* Item Preview */}
+                <div key={item.id} className="glass-panel shop-item-card" style={{ padding: 0, overflow: 'hidden' }}>
+                  {/* Preview */}
                   {item.iframe_template ? (
-                    <div className="w-full h-40 bg-slate-700/50 rounded-lg mb-4 overflow-hidden border border-slate-600">
-                      <iframe
-                        srcDoc={item.iframe_template}
-                        className="w-full h-full border-none"
-                        style={{ mixBlendMode: 'screen' }}
-                      />
+                    <div style={{ width: '100%', height: 160, background: 'var(--bg-elevated)', overflow: 'hidden' }}>
+                      <iframe srcDoc={item.iframe_template} style={{ width: '100%', height: '100%', border: 'none', mixBlendMode: 'screen' }} />
                     </div>
                   ) : (
-                    <div className="w-full h-40 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-lg mb-4 border border-purple-500/30 flex items-center justify-center text-6xl">
-                      🎨
+                    <div style={{ width: '100%', height: 160, background: 'var(--bg-elevated)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <IconPalette size={48} color="var(--text-muted)" />
                     </div>
                   )}
 
-                  {/* Item Info */}
-                  <h3 className="text-xl font-bold text-white mb-2">{item.name}</h3>
-                  <p className="text-sm text-slate-400 mb-4">{item.description}</p>
+                  <div style={{ padding: '16px' }}>
+                    <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1rem', marginBottom: 6, color: 'var(--text-primary)' }}>{item.name}</h3>
+                    <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: 14 }}>{item.description}</p>
 
-                  {/* Price Badge */}
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2 bg-yellow-500/20 border border-yellow-500/50 rounded-lg px-3 py-2">
-                      <span className="text-xl">💰</span>
-                      <span className="font-bold text-yellow-300">{item.price}</span>
+                    {/* Price & Owned */}
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--gold)', fontWeight: 700 }}>
+                        <IconCoins size={16} color="var(--gold)" />
+                        <span>{item.price}</span>
+                      </div>
+                      {owned && (
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.75rem', color: 'var(--green)', background: 'rgba(69,163,94,0.12)', padding: '4px 10px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--green)' }}>
+                          <IconCheck size={12} /> Owned
+                        </span>
+                      )}
                     </div>
 
-                    {owned && (
-                      <span className="text-xs bg-green-500/20 text-green-300 px-3 py-2 rounded-lg border border-green-500/50">
-                        ✓ Owned
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Action Buttons */}
-                  <div className="space-y-2">
+                    {/* Action */}
                     {!owned ? (
                       <button
                         onClick={() => handlePurchase(item.id)}
-                        disabled={
-                          (profile?.credits || 0) < item.price ||
-                          (!profile?.id && 'Not authenticated')
-                        }
-                        className={`w-full py-3 rounded-lg font-bold transition-all ${
-                          (profile?.credits || 0) < item.price
-                            ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                            : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white'
-                        }`}
+                        disabled={(profile?.credits || 0) < item.price}
+                        className="btn btn-primary btn-sm"
+                        style={{ width: '100%', justifyContent: 'center', opacity: (profile?.credits || 0) < item.price ? 0.45 : 1 }}
                       >
-                        {(profile?.credits || 0) < item.price
-                          ? `Need ${item.price - (profile?.credits || 0)} more`
-                          : 'Purchase'}
+                        {(profile?.credits || 0) < item.price ? `Need ${item.price - (profile?.credits || 0)} more` : 'Purchase'}
                       </button>
                     ) : (
-                      <>
-                        <button
-                          onClick={() => handleEquip(inventoryItemId)}
-                          disabled={equipped}
-                          className={`w-full py-3 rounded-lg font-bold transition-all ${
-                            equipped
-                              ? 'bg-slate-600 text-slate-400 cursor-not-allowed'
-                              : 'bg-blue-600 hover:bg-blue-500 text-white'
-                          }`}
-                        >
-                          {equipped ? '✓ Equipped' : 'Equip'}
-                        </button>
-                      </>
+                      <button
+                        onClick={() => handleEquip(invId)}
+                        disabled={equipped}
+                        className={equipped ? 'btn btn-ghost btn-sm' : 'btn btn-secondary btn-sm'}
+                        style={{ width: '100%', justifyContent: 'center' }}
+                      >
+                        {equipped ? <><IconCheck size={13} /> Equipped</> : 'Equip'}
+                      </button>
                     )}
-                  </div>
 
-                  {/* Tips */}
-                  <div className="mt-4 p-3 bg-slate-700/30 rounded-lg text-xs text-slate-400 border border-slate-600">
-                    💡 Complete activities to earn credits and XP
+                    {/* Tip */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 10, padding: '8px 10px', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-sm)', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      <IconLightbulb size={13} />
+                      Complete activities to earn credits and XP
+                    </div>
                   </div>
                 </div>
               );
@@ -232,56 +225,46 @@ export default function Shop() {
           </div>
         )}
 
-        {/* How to Earn Credits Section */}
-        <div className="mt-12 bg-slate-800/80 backdrop-blur border border-purple-500/20 rounded-2xl p-6">
-          <h2 className="text-2xl font-bold text-white mb-6">How to Earn Credits</h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-              <div className="text-3xl mb-3">📺</div>
-              <h3 className="font-bold text-white mb-2">Track Episodes</h3>
-              <p className="text-sm text-slate-300 mb-2">
-                Track your favorite anime episodes to earn rewards
-              </p>
-              <div className="flex items-center gap-2">
-                <span className="text-blue-300 font-bold">+5</span>
-                <span className="text-slate-400">per episode</span>
+        {/* How to Earn Credits */}
+        <div className="glass-panel" style={{ marginTop: 48, padding: 28 }}>
+          <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', marginBottom: 24, color: 'var(--text-primary)' }}>How to Earn Credits</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+            {[
+              { Icon: IconTv,      title: 'Track Episodes',  desc: 'Track your favourite anime episodes',  reward: '+5',  rewardColor: '#4A8FCC', unit: 'per episode' },
+              { Icon: IconPenLine, title: 'Write Reviews',   desc: 'Share your thoughts (200+ chars)',     reward: '+50', rewardColor: 'var(--gold)', unit: 'per review' },
+              { Icon: IconMessage, title: 'Chat Messages',   desc: 'Participate in global and guild chat', reward: '+1',  rewardColor: 'var(--pink)', unit: 'per message' },
+            ].map(({ Icon, title, desc, reward, rewardColor, unit }) => (
+              <div key={title} style={{ background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', padding: 16, border: '1px solid var(--border-subtle)' }}>
+                <Icon size={28} color="var(--text-secondary)" style={{ marginBottom: 10 }} />
+                <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '0.95rem', marginBottom: 6 }}>{title}</h3>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: 10 }}>{desc}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <span style={{ fontWeight: 700, color: rewardColor }}>{reward}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>{unit}</span>
+                </div>
               </div>
-            </div>
-
-            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-              <div className="text-3xl mb-3">✍️</div>
-              <h3 className="font-bold text-white mb-2">Write Reviews</h3>
-              <p className="text-sm text-slate-300 mb-2">
-                Share your thoughts with reviews (200+ characters)
-              </p>
-              <div className="flex items-center gap-2">
-                <span className="text-yellow-300 font-bold">+50</span>
-                <span className="text-slate-400">per review</span>
-              </div>
-            </div>
-
-            <div className="bg-slate-700/50 rounded-lg p-4 border border-slate-600">
-              <div className="text-3xl mb-3">💬</div>
-              <h3 className="font-bold text-white mb-2">Chat Messages</h3>
-              <p className="text-sm text-slate-300 mb-2">
-                Participate in global and guild chat
-              </p>
-              <div className="flex items-center gap-2">
-                <span className="text-pink-300 font-bold">+1</span>
-                <span className="text-slate-400">per message</span>
-              </div>
-            </div>
+            ))}
           </div>
 
-          <div className="mt-4 p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg">
-            <p className="text-sm text-slate-300">
-              💎 <span className="text-purple-300 font-semibold">Donors get 2x rewards!</span> Support
-              AniEmpire and unlock exclusive benefits.
+          <div style={{ marginTop: 16, padding: '12px 16px', background: 'var(--gold-glow-soft)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-default)', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <IconGem size={18} color="var(--gold)" />
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              <span style={{ color: 'var(--gold)', fontWeight: 600 }}>Donors get 2× rewards!</span> Support AniEmpire and unlock exclusive benefits.
             </p>
           </div>
         </div>
       </div>
+
+      <style>{`
+        .shop-item-card {
+          transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+        }
+        .shop-item-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-gold-lg);
+          border-color: var(--border-hover) !important;
+        }
+      `}</style>
     </div>
   );
 }

@@ -5595,3 +5595,295 @@ h4 {
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM ENHANCEMENT — Anime × MMORPG × Steam × Discord × Persona UI
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Extended colour tokens ─────────────────────────────────────────────── */
+:root {
+  /* Neon accents */
+  --neon-cyan:         #00D9FF;
+  --neon-cyan-glow:    rgba(0, 217, 255, 0.22);
+  --neon-cyan-soft:    rgba(0, 217, 255, 0.08);
+  --neon-purple:       #9D4EFF;
+  --neon-purple-glow:  rgba(157, 78, 255, 0.22);
+  --neon-purple-soft:  rgba(157, 78, 255, 0.08);
+  --neon-pink:         #FF2D9B;
+  --neon-pink-glow:    rgba(255, 45, 155, 0.22);
+  --neon-green:        #39FF85;
+  --neon-green-glow:   rgba(57, 255, 133, 0.18);
+
+  /* OLED / ultra-dark */
+  --oled-black:  #000000;
+  --oled-near:   #050505;
+
+  /* Glass */
+  --glass-bg:     rgba(20, 18, 16, 0.72);
+  --glass-border: rgba(212, 168, 67, 0.14);
+  --glass-blur:   blur(20px);
+
+  /* Extended shadows */
+  --shadow-neon-cyan:   0 0 24px rgba(0, 217, 255, 0.28);
+  --shadow-neon-purple: 0 0 24px rgba(157, 78, 255, 0.28);
+  --shadow-neon-pink:   0 0 24px rgba(255, 45, 155, 0.28);
+  --shadow-elevated:    0 8px 40px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Glassmorphism utility ──────────────────────────────────────────────── */
+.glass-panel {
+  background:    var(--glass-bg);
+  border:        1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow:    var(--shadow-card);
+}
+
+.glass-panel--neon-cyan {
+  border-color: rgba(0, 217, 255, 0.25);
+  box-shadow:   var(--shadow-neon-cyan);
+}
+
+.glass-panel--neon-purple {
+  border-color: rgba(157, 78, 255, 0.25);
+  box-shadow:   var(--shadow-neon-purple);
+}
+
+.glass-panel--neon-pink {
+  border-color: rgba(255, 45, 155, 0.25);
+  box-shadow:   var(--shadow-neon-pink);
+}
+
+/* ── Animated gradient keyframes ────────────────────────────────────────── */
+@keyframes gradient-shift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1;   filter: brightness(1); }
+  50%       { opacity: 0.8; filter: brightness(1.4); }
+}
+
+@keyframes float-up {
+  0%   { transform: translateY(0);  opacity: 1; }
+  100% { transform: translateY(-8px); opacity: 0.7; }
+}
+
+@keyframes border-glow {
+  0%, 100% { box-shadow: 0 0 8px  rgba(212, 168, 67, 0.2); }
+  50%       { box-shadow: 0 0 24px rgba(212, 168, 67, 0.55); }
+}
+
+@keyframes slide-in-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+/* ── Animated gradient text ─────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(90deg, var(--gold), var(--neon-cyan), var(--neon-purple), var(--gold));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 5s ease infinite;
+}
+
+/* ── Neon glow utilities ─────────────────────────────────────────────────── */
+.glow-gold   { box-shadow: var(--shadow-gold); }
+.glow-cyan   { box-shadow: var(--shadow-neon-cyan); }
+.glow-purple { box-shadow: var(--shadow-neon-purple); }
+.glow-pink   { box-shadow: var(--shadow-neon-pink); }
+
+.text-neon-cyan   { color: var(--neon-cyan); }
+.text-neon-purple { color: var(--neon-purple); }
+.text-neon-pink   { color: var(--neon-pink); }
+.text-neon-green  { color: var(--neon-green); }
+
+/* ── Neon border accents ─────────────────────────────────────────────────── */
+.border-neon-cyan   { border-color: var(--neon-cyan)   !important; }
+.border-neon-purple { border-color: var(--neon-purple) !important; }
+.border-neon-pink   { border-color: var(--neon-pink)   !important; }
+
+/* ── Parallax / depth helpers ────────────────────────────────────────────── */
+.parallax-bg {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+/* ── Page entry animations ───────────────────────────────────────────────── */
+.animate-in {
+  animation: slide-in-up 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ── Neon badge variants ─────────────────────────────────────────────────── */
+.badge-neon-cyan {
+  background:   var(--neon-cyan-soft);
+  color:        var(--neon-cyan);
+  border:       1px solid rgba(0, 217, 255, 0.35);
+}
+
+.badge-neon-purple {
+  background:   var(--neon-purple-soft);
+  color:        var(--neon-purple);
+  border:       1px solid rgba(157, 78, 255, 0.35);
+}
+
+.badge-neon-green {
+  background:   rgba(57, 255, 133, 0.08);
+  color:        var(--neon-green);
+  border:       1px solid rgba(57, 255, 133, 0.3);
+}
+
+/* ── XP / progress bar neon fill ────────────────────────────────────────── */
+.xp-bar-fill {
+  background:  linear-gradient(90deg, var(--neon-purple), var(--neon-cyan));
+  box-shadow:  0 0 10px rgba(157, 78, 255, 0.5);
+  border-radius: var(--radius-full);
+  height:      100%;
+  transition:  width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Holographic card shimmer ────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.card-shimmer::after {
+  content:  '';
+  position: absolute;
+  inset:    0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ── Skeleton loading ────────────────────────────────────────────────────── */
+@keyframes skeleton-wave {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-surface)  50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 400px 100%;
+  animation: skeleton-wave 1.6s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ── OLED mode ───────────────────────────────────────────────────────────── */
+[data-theme="oled"] {
+  --bg-deepest:  var(--oled-black);
+  --bg-primary:  var(--oled-near);
+  --bg-secondary:#080808;
+  --bg-card:     #0C0C0C;
+  --bg-elevated: #111111;
+  --bg-surface:  #171717;
+  --bg-hover:    #1E1E1E;
+}
+
+/* ── Light mode ──────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-deepest:  #F5F0E8;
+  --bg-primary:  #FAFAF7;
+  --bg-secondary:#F0EDE5;
+  --bg-card:     #FFFFFF;
+  --bg-elevated: #F5F2EC;
+  --bg-surface:  #EDE9E0;
+  --bg-hover:    #E5E0D5;
+
+  --text-primary:   #1A1510;
+  --text-secondary: #4A3F28;
+  --text-muted:     #8A7A5A;
+  --text-accent:    var(--gold-dark);
+
+  --border-subtle:  rgba(139, 100, 20, 0.08);
+  --border-default: rgba(139, 100, 20, 0.16);
+  --border-hover:   rgba(139, 100, 20, 0.35);
+  --border-active:  rgba(139, 100, 20, 0.6);
+
+  --glass-bg:     rgba(255, 252, 245, 0.82);
+  --glass-border: rgba(139, 100, 20, 0.16);
+}
+
+/* ── Scrollbar neon accent on hover ─────────────────────────────────────── */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--gold);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+
+/* ── Icon button utility ─────────────────────────────────────────────────── */
+.icon-btn {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  width:  36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border:     1px solid var(--border-subtle);
+  background: var(--bg-elevated);
+  color:      var(--text-muted);
+  cursor:     pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.icon-btn:hover {
+  border-color: var(--gold);
+  color:        var(--gold);
+  background:   var(--gold-glow-soft);
+  transform:    scale(1.06);
+}
+
+.icon-btn--neon-cyan:hover {
+  border-color: var(--neon-cyan);
+  color:        var(--neon-cyan);
+  background:   var(--neon-cyan-soft);
+  box-shadow:   var(--shadow-neon-cyan);
+}
+
+.icon-btn--neon-purple:hover {
+  border-color: var(--neon-purple);
+  color:        var(--neon-purple);
+  background:   var(--neon-purple-soft);
+  box-shadow:   var(--shadow-neon-purple);
+}
+
+/* ── Faction accent helpers ─────────────────────────────────────────────── */
+.faction--shonen    { --faction-color: #FF6B6B; }
+.faction--seinen    { --faction-color: #4ECDC4; }
+.faction--shoujo    { --faction-color: #FFB7C5; }
+.faction--cyberpunk { --faction-color: #00D9FF; }
+.faction--fantasy   { --faction-color: #9D84B7; }
+.faction--sol       { --faction-color: #FFD93D; }
+
+.faction-border { border-color: var(--faction-color, var(--gold)) !important; }
+.faction-glow   { box-shadow: 0 0 20px color-mix(in srgb, var(--faction-color, var(--gold)) 35%, transparent) !important; }
+.faction-text   { color: var(--faction-color, var(--gold)) !important; }
+

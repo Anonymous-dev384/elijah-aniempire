@@ -11,32 +11,33 @@
     "analyze": "vite build --analyze"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
     "aplayer": "^1.10.1",
     "artplayer": "^5.4.0",
+    "date-fns": "^2.30.0",
+    "framer-motion": "^10.16.0",
     "hls.js": "^1.5.17",
+    "lucide-react": "^1.25.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router-dom": "^7.14.0",
-    "@supabase/supabase-js": "^2.38.4",
-    "zustand": "^4.4.0",
-    "framer-motion": "^10.16.0",
     "react-query": "^3.39.3",
-    "date-fns": "^2.30.0",
-    "zod": "^3.22.4"
+    "react-router-dom": "^7.14.0",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@rollup/plugin-dynamic-import-vars": "^2.1.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
-    "@rollup/plugin-dynamic-import-vars": "^6.0.1",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
+    "rollup-plugin-visualizer": "^5.9.2",
     "vite": "^8.0.8",
-    "vite-plugin-compression": "^0.5.1",
-    "rollup-plugin-visualizer": "^5.9.2"
+    "vite-plugin-compression": "^0.5.1"
   },
   "description": "Premium anime discovery platform with community features and marketplace",
   "main": "eslint.config.js",
