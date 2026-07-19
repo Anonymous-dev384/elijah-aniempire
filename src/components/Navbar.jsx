@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { getRandomAnime, generateDetailUrl } from '../services/api'
-import { CrownIcon, IconSearch, IconLock, IconUser, IconShuffle } from './Icons'
-import { NAV } from './navConfig'
+import { CrownIcon, IconSearch, IconLock, IconUser, IconShuffle, IconBell } from './Icons'
+import { NAV, NAV_COMMUNITY } from './navConfig'
 import { useTheme } from '../context/ThemeContext'
 import { useRPGStore } from '../store/rpgStore'
 
@@ -95,6 +95,36 @@ export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
             <IconShuffle size={18} />
             {!collapsed && <span>Random</span>}
           </button>
+        </nav>
+
+        {!collapsed && <div className="sidebar-label" style={{ marginTop: 10 }}>COMMUNITY</div>}
+        {collapsed && <div className="sidebar-bottom-sep" style={{ margin: '6px 8px' }} />}
+
+        <nav className="sidebar-nav">
+          {NAV_COMMUNITY.map(item => {
+            const Icon = item.icon
+            const isActive = checkActive(item.to)
+            return (
+              <Link
+                key={item.label}
+                to={item.to}
+                className={`nav-link${isActive ? ' active' : ''}`}
+                title={collapsed ? item.label : undefined}
+              >
+                <Icon size={18} />
+                {!collapsed && <span>{item.label}</span>}
+              </Link>
+            )
+          })}
+          <Link
+            to="/notifications"
+            className={`nav-link${location.pathname === '/notifications' ? ' active' : ''}`}
+            title={collapsed ? 'Notifications' : undefined}
+          >
+            <IconBell size={18} />
+            {!collapsed && <span>Notifications</span>}
+            {!collapsed && <span className="nav-badge">3</span>}
+          </Link>
         </nav>
 
         <div style={{ flex: 1 }} />
@@ -254,6 +284,20 @@ export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
         .theme-label { white-space: nowrap; overflow: hidden; }
         .sidebar.collapsed .sidebar-theme-btn { justify-content: center; padding: 10px; }
         .sidebar.collapsed .theme-label { display: none; }
+
+        .nav-badge {
+          margin-left: auto;
+          background: var(--red);
+          color: #fff;
+          font-size: 0.6rem;
+          font-weight: 800;
+          padding: 1px 5px;
+          border-radius: var(--radius-full);
+          min-width: 16px;
+          text-align: center;
+          line-height: 1.4;
+        }
+        .sidebar.collapsed .nav-badge { display: none; }
 
         @media (max-width: 768px) {
           .sidebar { display: none; }

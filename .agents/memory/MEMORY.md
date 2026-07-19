@@ -1,5 +1,0 @@
-- [Backend setup](backend-setup.md) — server/ runs on port 4000; missing modules stubbed (animepahe, yomu, hianime); natural + fastest-levenshtein installed
-- [API base URL](api-base-url.md) — .env.local sets VITE_API_BASE_URL=/api; Vite proxies /api → localhost:4000
-- [RPG system](rpg-system.md) — Zustand rpgStore at src/store/rpgStore.js; ThemeContext at src/context/ThemeContext.jsx; RPGHud + AnimatedBackground wired in App.jsx
-- [Design system](design-system.md) — card-shimmer, glass-panel, neon CSS vars all in src/index.css; faction colors via --fc CSS var pattern
-- [Supabase schema](supabase-schema.md) — full migrations in server/migrations/; 001=schema+triggers, 002=RLS policies; run in Supabase SQL Editor
