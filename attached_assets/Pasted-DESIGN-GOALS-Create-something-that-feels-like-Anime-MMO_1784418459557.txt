@@ -1,0 +1,665 @@
+DESIGN GOALS
+
+Create something that feels like
+
+Anime × MMORPG × Steam × Discord × Netflix × Persona UI
+
+The UI should feel alive.
+
+Requirements
+
+glassmorphism
+neon accents
+animated gradients
+parallax backgrounds
+dynamic themes
+responsive
+keyboard shortcuts
+accessibility
+mobile first
+dark mode
+light mode
+OLED mode
+smooth transitions
+page animations
+skeleton loaders
+optimistic updates
+virtual scrolling
+CORE FEATURES
+Anime Database
+
+Complete anime pages
+
+synopsis
+studios
+trailers
+soundtrack
+staff
+characters
+voice actors
+recommendations
+similar anime
+franchises
+timeline
+opening songs
+ending songs
+streaming availability
+ratings
+reviews
+discussions
+episode guides
+User Profiles
+
+Steam-quality profile system.
+
+Include
+
+animated banners
+profile themes
+avatar borders
+profile frames
+animated backgrounds
+profile music
+featured AMV
+favorite quote
+bio
+badges
+guild
+rank
+achievements
+anime stats
+heatmap
+yearly recap
+profile visitors
+activity timeline
+custom URL
+social links
+showcase widgets
+
+Widgets
+
+Favorite Anime
+Favorite Character
+Favorite Studio
+Manga Collection
+Watchlist
+Recently Watched
+Recently Reviewed
+Guild
+Achievements
+Collection Progress
+Currently Watching
+Upcoming Releases
+
+Users can rearrange widgets using drag-and-drop.
+
+RPG SYSTEM
+
+Every user is a character.
+
+Progression
+
+XP
+
+Levels
+
+Titles
+
+Classes
+
+Factions
+
+Skill Trees
+
+Masteries
+
+Prestige
+
+Ascension
+
+Daily Quests
+
+Weekly Quests
+
+Season Pass
+
+Battle Pass
+
+Achievements
+
+Streaks
+
+Milestones
+
+Hidden Achievements
+
+Legendary Titles
+
+Season Rankings
+
+FACTIONS
+
+Examples
+
+Shonen Empire
+
+Seinen Order
+
+Shoujo Kingdom
+
+Cyber Syndicate
+
+Fantasy Realm
+
+Mecha Union
+
+Slice of Life Society
+
+Horror Cult
+
+Isekai Dominion
+
+Mystic Academy
+
+Each faction has
+
+exclusive quests
+
+exclusive cosmetics
+
+exclusive chat
+
+exclusive guild bonuses
+
+exclusive rankings
+
+ECONOMY
+
+Currencies
+
+Credits
+
+Gems
+
+Guild Tokens
+
+Event Tokens
+
+Legend Tokens
+
+Marketplace
+
+Auction House
+
+Trading
+
+Gift System
+
+Inventory
+
+Consumables
+
+Profile Cosmetics
+
+Limited Edition Items
+
+Seasonal Rewards
+
+Daily Shop Rotation
+
+SHOP
+
+Cosmetics
+
+Avatar Borders
+
+Animated Backgrounds
+
+Cursor Effects
+
+Chat Effects
+
+Profile Effects
+
+Particle Systems
+
+Custom Fonts
+
+Name Colors
+
+Guild Decorations
+
+Title Packs
+
+Music Packs
+
+Voice Packs
+
+Sticker Packs
+
+Emoji Packs
+
+Profile Cards
+
+Animated Frames
+
+Profile Themes
+
+Iframe Effects
+
+GAMIFICATION
+
+Daily Login
+
+Achievements
+
+Collections
+
+Completion %
+
+Anime Challenges
+
+Genre Challenges
+
+Random Wheel
+
+Treasure Chests
+
+Loot Boxes
+
+Level Rewards
+
+Season Pass
+
+Guild Wars
+
+World Boss
+
+Community Goals
+
+Global Events
+
+SOCIAL SYSTEM
+
+Follow Users
+
+Friends
+
+Best Friends
+
+Guilds
+
+Communities
+
+Private Groups
+
+Activity Feed
+
+Notifications
+
+Mentions
+
+Replies
+
+Reactions
+
+Bookmarks
+
+Pins
+
+Polls
+
+Status Updates
+
+Stories
+
+Profile Comments
+
+Guestbook
+
+CHAT
+
+Global Chat
+
+Guild Chat
+
+Private Messages
+
+Voice Rooms
+
+Watch Parties
+
+Image Sharing
+
+GIFs
+
+Emoji
+
+Stickers
+
+Slash Commands
+
+Threads
+
+Pinned Messages
+
+Moderation
+
+Message Reactions
+
+Typing Indicators
+
+Read Receipts
+
+Presence
+
+Online Status
+
+Rich User Cards
+
+Message Search
+
+WATCH PARTY
+
+Realtime synchronized player
+
+Leader controls
+
+Queue
+
+Playlist
+
+Episode voting
+
+Timestamp synchronization
+
+Live reactions
+
+Voice chat integration
+
+Picture in picture
+
+Shared subtitles
+
+Shared playback speed
+
+Auto synchronization
+
+GUILDS
+
+Guild Levels
+
+Guild XP
+
+Guild Quests
+
+Guild Raids
+
+Guild Bosses
+
+Guild Leaderboards
+
+Guild Roles
+
+Guild Chat
+
+Guild Calendar
+
+Guild Treasury
+
+Guild Shop
+
+Guild Achievements
+
+Guild Hall
+
+Guild Banner
+
+Guild Emblem Editor
+
+Guild Statistics
+
+Guild Recruitment
+
+Guild Applications
+
+Guild Alliances
+
+Guild Wars
+
+REVIEW SYSTEM
+
+Markdown
+
+Spoiler tags
+
+Rich embeds
+
+GIF support
+
+Media uploads
+
+Helpful votes
+
+AI moderation
+
+Community moderation
+
+Review rankings
+
+Critic level
+
+Featured reviews
+
+DISCUSSIONS
+
+Anime forums
+
+Episode discussions
+
+Character discussions
+
+Theory discussions
+
+Spoiler protection
+
+Nested comments
+
+Voting
+
+Sorting
+
+Pinned posts
+
+Moderation
+
+RECOMMENDATION ENGINE
+
+Recommend anime using
+
+Genres
+
+Studios
+
+Mood
+
+Themes
+
+Characters
+
+Watching history
+
+Ratings
+
+Collaborative filtering
+
+AI recommendations
+
+Seasonal trends
+
+SEARCH
+
+Global search
+
+Anime
+
+Users
+
+Guilds
+
+Characters
+
+Studios
+
+Voice Actors
+
+Posts
+
+Reviews
+
+Collections
+
+Instant results
+
+Filters
+
+Advanced search
+
+AI FEATURES
+
+AI Profile Summary
+
+AI Anime Recommender
+
+AI Review Assistant
+
+AI Moderator
+
+AI Quest Generator
+
+AI Character Companion
+
+AI Watchlist Optimizer
+
+AI Conversation Starter
+
+AI Screenshot Tagging
+
+AI Duplicate Detection
+
+ADMIN PANEL
+
+Dashboard
+
+Analytics
+
+Reports
+
+Moderation Queue
+
+User Management
+
+Guild Management
+
+Economy Controls
+
+Shop Management
+
+Quest Editor
+
+Season Manager
+
+Announcements
+
+Logs
+
+Audit Trail
+
+Feature Flags
+
+SECURITY
+
+RLS everywhere
+
+Rate limiting
+
+Spam detection
+
+Bot detection
+
+Profanity filtering
+
+XSS protection
+
+CSRF protection
+
+Validation
+
+Audit logging
+
+Secure RPC functions
+
+Input sanitization
+
+PERFORMANCE
+
+Lazy loading
+
+Virtualization
+
+Image optimization
+
+Code splitting
+
+Caching
+
+Optimistic updates
+
+Prefetching
+
+Memoization
+
+Realtime batching
+
+DATABASE
+
+Generate complete
+
+Supabase migrations
+
+Indexes
+
+Triggers
+
+Views
+
+Materialized views
+
+Functions
+
+RPCs
+
+Policies
+
+Seed data
+
+CODE QUALITY
+
+Produce production-quality code.
+
+Requirements
+
+Modular architecture
+Feature-based folders
+Reusable hooks
+Clean components
+Type-safe APIs (if using TypeScript)
+Error boundaries
+Loading states
+Empty states
+Unit tests
+Integration tests
+Comprehensive comments where appropriate
+ESLint and Prettier compatibility
+
+Do not use placeholder implementations. Build complete, integrated features that work together across the frontend, backend, and database.

@@ -3,11 +3,17 @@ import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { getRandomAnime, generateDetailUrl } from '../services/api'
 import { CrownIcon, IconSearch, IconLock, IconUser, IconShuffle } from './Icons'
 import { NAV } from './navConfig'
+import { useTheme } from '../context/ThemeContext'
+import { useRPGStore } from '../store/rpgStore'
 
 export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
   const location = useLocation()
   const navigate = useNavigate()
   const [isRandomizing, setIsRandomizing] = useState(false)
+  const { theme, cycleTheme } = useTheme()
+  const { level, faction } = useRPGStore()
+
+  const themeIcons = { dark: '🌙', light: '☀️', oled: '⬛' }
 
   const handleRandomPick = async () => {
     if (isRandomizing) return
@@ -95,6 +101,16 @@ export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
         <div className="sidebar-bottom-sep" />
 
         <div className="sidebar-auth">
+          {/* Theme toggle */}
+          <button
+            className="sidebar-theme-btn"
+            onClick={cycleTheme}
+            title={`Theme: ${theme} (click to cycle)`}
+          >
+            <span className="theme-icon">{themeIcons[theme]}</span>
+            {!collapsed && <span className="theme-label">{theme.toUpperCase()} MODE</span>}
+          </button>
+
           {collapsed ? (
             <>
               <Link to="/login" className="nav-link" title="Login" style={{ justifyContent: 'center' }}><IconLock size={18} /></Link>
@@ -117,8 +133,10 @@ export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
         .sidebar {
           position: fixed; top: 0; left: 0; height: 100vh;
           width: var(--sidebar-width);
-          background: var(--bg-secondary);
+          background: rgba(10, 9, 8, 0.85);
           border-right: 1px solid var(--border-subtle);
+          backdrop-filter: blur(24px);
+          -webkit-backdrop-filter: blur(24px);
           display: flex; flex-direction: column;
           transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
           overflow: hidden; z-index: 100;
@@ -220,9 +238,22 @@ export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
         .random-nav-btn:hover { color: var(--gold) !important; background: rgba(var(--gold-rgb), 0.05); }
         .random-nav-btn.randomizing svg { animation: spin 1s linear infinite; color: var(--gold); }
         
-        @keyframes spin {
-          100% { transform: rotate(360deg); }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Theme toggle */
+        .sidebar-theme-btn {
+          display: flex; align-items: center; gap: 8px;
+          width: 100%; padding: 8px 12px; border-radius: var(--radius-md);
+          background: var(--bg-elevated); border: 1px solid var(--border-subtle);
+          color: var(--text-muted); cursor: pointer; font-size: 0.72rem;
+          font-weight: 700; letter-spacing: 0.06em; transition: all 0.2s;
+          margin-bottom: 6px;
         }
+        .sidebar-theme-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .theme-icon { font-size: 0.9rem; }
+        .theme-label { white-space: nowrap; overflow: hidden; }
+        .sidebar.collapsed .sidebar-theme-btn { justify-content: center; padding: 10px; }
+        .sidebar.collapsed .theme-label { display: none; }
 
         @media (max-width: 768px) {
           .sidebar { display: none; }

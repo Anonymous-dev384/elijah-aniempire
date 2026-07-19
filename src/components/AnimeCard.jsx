@@ -106,7 +106,7 @@ export default function AnimeCard({ item, type = 'anime' }) {
   return (
     <div
       ref={cardRef}
-      className="anime-card"
+      className="anime-card card-shimmer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

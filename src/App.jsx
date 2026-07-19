@@ -2,9 +2,12 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { BrowserRouter, Routes, Route, Outlet, useLocation, Link, Navigate, useMatch, useNavigate } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import { useMusic } from './context/MusicContext'
+import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
 import { NAV } from './components/navConfig'
 import Footer from './components/Footer'
+import RPGHud from './components/RPG/RPGHud'
+import AnimatedBackground from './components/Layout/AnimatedBackground'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
@@ -301,8 +304,10 @@ function MainLayout() {
 
   return (
     <div className={`app-layout ${collapsed ? 'sidebar-collapsed' : ''}`}>
+      <AnimatedBackground />
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
       <Navbar collapsed={collapsed} setCollapsed={setCollapsed} onOpenSearch={() => setSearchOpen(true)} />
+      <RPGHud />
       <main className={`main-content${collapsed ? ' sidebar-collapsed' : ''}`}>
 
         {/* Mobile Header */}
@@ -361,7 +366,8 @@ function BrowseRedirect() {
 
 export default function App() {
   return (
-    <MusicProvider>
+    <ThemeProvider>
+      <MusicProvider>
       <BrowserRouter>
         <ScrollToTop />
         <RouteProgressBar />
@@ -387,5 +393,6 @@ export default function App() {
         </Routes>
       </BrowserRouter>
     </MusicProvider>
+    </ThemeProvider>
   )
 }

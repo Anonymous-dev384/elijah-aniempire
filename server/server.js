@@ -101,7 +101,7 @@ app.use('/admin', updateMappings);
 // Global Error Handler - must be after routes
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const connectDB = require('./config/db');
 
 app.listen(PORT, async () => {

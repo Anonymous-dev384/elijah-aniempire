@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import HeroSlider from '../components/HeroSlider'
 import SectionHeader from '../components/SectionHeader'
@@ -9,6 +9,27 @@ import { IconFire, IconStar, IconBook, IconMusic, CrownIcon, IconTrendUp, IconRe
 import { MANGA, ANIME as MOCK_ANIME } from '../data/mockData'
 import { getPopularAnime, getTopAiringAnime, getUpcomingAnime, getNewEpisodes, getSeasonalAnime, getTopManga, searchAnime, generateDetailUrl, getPopularAnimeThemes } from '../services/api'
 import ThemeCard from '../components/ThemeCard'
+
+/** IntersectionObserver fade-in hook */
+function useAnimateIn() {
+  const ref = useRef(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { el.classList.add('animate-in'); obs.disconnect() }
+    }, { threshold: 0.08 })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+  return ref
+}
+
+/** Wrapper so each section can call the hook independently */
+function AnimateSection({ children, style, className = '' }) {
+  const ref = useAnimateIn()
+  return <div ref={ref} className={`anim-section ${className}`} style={style}>{children}</div>
+}
 
 function TrendingRankRow({ loading, items }) {
   if (loading) {
@@ -182,50 +203,51 @@ export default function HomePage() {
       <div className="home-layout">
         <div className="home-main">
 
-          <div className="section">
+          <AnimateSection className="section">
             <SectionHeader title="Popular" icon={<IconFire size={20} color="var(--gold)" />} linkTo="/browse/anime?cat=popular" />
             <div className="anime-grid">
               {loadingPopular
                 ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
-                : popular.slice(0, 6).map((item, i) => <AnimeCard key={`${item.id}-${i}`} item={item} type="anime" />)
+                : popular.slice(0, 6).map((item, i) => <AnimeCard key={`pop-${item.id}-${i}`} item={item} type="anime" />)
               }
             </div>
-          </div>
+          </AnimateSection>
 
-          <div className="section">
+          <AnimateSection className="section">
             <SectionHeader title="New Episodes" subtitle="Fresh drops this season" icon={<IconRefresh size={18} color="var(--gold)" />} linkTo="/browse/anime?cat=new" />
             <div className="anime-grid">
               {loadingNew
                 ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
-                : newReleases.slice(0, 6).map((item, i) => <AnimeCard key={`${item.id}-${i}`} item={item} type="anime" />)
+                : newReleases.slice(0, 6).map((item, i) => <AnimeCard key={`new-${item.id}-${i}`} item={item} type="anime" />)
               }
             </div>
-          </div>
+          </AnimateSection>
 
-          <div className="section">
+          <AnimateSection className="section">
             <SectionHeader title="Upcoming" subtitle="Sneak peek into the future" icon={<IconCalendar size={20} color="var(--gold)" />} linkTo="/browse/anime?cat=upcoming" />
             <div className="anime-grid">
               {loadingUpcoming
                 ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
-                : upcoming.slice(0, 6).map((item, i) => <AnimeCard key={`${item.id}-${i}`} item={item} type="anime" />)
+                : upcoming.slice(0, 6).map((item, i) => <AnimeCard key={`up-${item.id}-${i}`} item={item} type="anime" />)
               }
             </div>
-          </div>
+          </AnimateSection>
 
-          <div className="section" style={{ paddingTop: '20px' }}>
+          <AnimateSection className="section" style={{ paddingTop: '20px' }}>
             <EstimatedSchedule />
-          </div>
+          </AnimateSection>
 
-          <div className="section">
+          <AnimateSection className="section">
             <SectionHeader title="Top Manga" subtitle="Legendary scrolls of the empire" icon={<IconBook size={18} color="var(--gold)" />} linkTo="/browse/manga?cat=top" />
             <div className="anime-grid">
               {loadingManga
                 ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
-                : manga.slice(0, 6).map(item => <AnimeCard key={item.id} item={item} type="manga" />)
+                : manga.slice(0, 6).map((item, i) => <AnimeCard key={`mg-${item.id}-${i}`} item={item} type="manga" />)
               }
             </div>
-          </div>
-          <div className="section">
+          </AnimateSection>
+
+          <AnimateSection className="section">
             <SectionHeader title="Soundtracks" subtitle="Iconic anime openings" icon={<IconMusic size={18} color="var(--gold)" />} linkTo="/browse/music?cat=popular" />
             <div className="music-grid">
               {loadingMusic
@@ -233,7 +255,7 @@ export default function HomePage() {
                 : music.map((item, idx) => <ThemeCard key={item.slug || idx} animeEntry={item} />)
               }
             </div>
-          </div>
+          </AnimateSection>
         </div>
 
         <aside className="home-sidebar">
@@ -243,6 +265,18 @@ export default function HomePage() {
           </div>
         </aside>
       </div>
+
+      <style>{`
+        .anim-section {
+          opacity: 0;
+          transform: translateY(28px);
+          transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), transform 0.55s cubic-bezier(0.4,0,0.2,1);
+        }
+        .anim-section.animate-in {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      `}</style>
     </div>
   )
 }

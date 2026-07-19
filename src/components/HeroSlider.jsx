@@ -4,9 +4,9 @@ import { IconPlay, IconChevron } from './Icons'
 import { generateDetailUrl, encodeId, slugify } from '../services/api'
 
 const DEFAULT_SLIDES = [
-  { id: 1, title: "Frieren: Beyond Journey's End", description: "Half a century after the party's triumph over the Demon King, the elf mage Frieren begins a new journey to understand what it means to be human.", coverImage: 'https://img.anili.st/media/154587', genres: ['Adventure', 'Fantasy', 'Drama'], score: 9.3, episodes: 28, status: 'Finished', isNew: false },
-  { id: 2, title: 'Solo Leveling', description: "In a world of hunters, the weakest awakens a unique power — the ability to grow without limit.", coverImage: 'https://img.anili.st/media/170942', genres: ['Action', 'Fantasy'], score: 8.8, episodes: 13, status: 'Finished', isNew: true },
-  { id: 3, title: 'Bleach: Thousand-Year Blood War', description: "Ichigo and the Soul Reapers face Yhwach's Quincy army in the most devastating war the Soul Society has ever seen.", coverImage: 'https://img.anili.st/media/129874', genres: ['Action', 'Supernatural'], score: 9.1, episodes: 26, status: 'Releasing', isNew: true },
+  { id: 154587, title: "Frieren: Beyond Journey's End", description: "Half a century after the party's triumph over the Demon King, the elf mage Frieren begins a new journey to understand what it means to be human.", coverImage: 'https://img.anili.st/media/154587', genres: ['Adventure', 'Fantasy', 'Drama'], score: 9.3, episodes: 28, status: 'Finished', isNew: false },
+  { id: 170942, title: 'Solo Leveling', description: "In a world of hunters, the weakest awakens a unique power — the ability to grow without limit.", coverImage: 'https://img.anili.st/media/170942', genres: ['Action', 'Fantasy'], score: 8.8, episodes: 13, status: 'Finished', isNew: true },
+  { id: 129874, title: 'Bleach: Thousand-Year Blood War', description: "Ichigo and the Soul Reapers face Yhwach's Quincy army in the most devastating war the Soul Society has ever seen.", coverImage: 'https://img.anili.st/media/129874', genres: ['Action', 'Supernatural'], score: 9.1, episodes: 26, status: 'Releasing', isNew: true },
 ]
 
 function DynamicHeroBackground({ sources, coverImage }) {
@@ -61,7 +61,7 @@ function DynamicHeroBackground({ sources, coverImage }) {
         onLoad={() => setBlurLoaded(true)}
         alt=""
         loading="eager"
-        fetchpriority="low"
+        fetchPriority="low"
       />
       {/* Sharp Banner/Cover Layer */}
       <img
@@ -75,7 +75,7 @@ function DynamicHeroBackground({ sources, coverImage }) {
         alt="Hero Banner"
         draggable="false"
         loading="eager"
-        fetchpriority="high"
+        fetchPriority="high"
       />
     </>
   );
