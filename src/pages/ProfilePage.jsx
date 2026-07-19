@@ -6,7 +6,7 @@ import {
   IconFire, IconStar, IconTrophy, IconShield, IconZap, IconTarget, IconAward,
   IconGem, IconCoins, IconSparkles, IconCheck, IconEye,
   IconCalendar, IconTrendUp, IconClock, IconSword, IconBook,
-  IconFilm, IconTv, IconPlay, IconPenLine, CrownIcon
+  IconFilm, IconTv, IconPlay, IconPenLine, CrownIcon, IconSettings
 } from '../components/Icons'
 
 // ── Mock Data ────────────────────────────────────────────────────────────────

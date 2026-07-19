@@ -4,10 +4,11 @@ import { createPortal } from 'react-dom'
 import { useMusic } from './context/MusicContext'
 import { ThemeProvider } from './context/ThemeContext'
 import Navbar from './components/Navbar'
-import { NAV } from './components/navConfig'
+import { NAV, NAV_COMMUNITY } from './components/navConfig'
 import Footer from './components/Footer'
 import RPGHud from './components/RPG/RPGHud'
 import AnimatedBackground from './components/Layout/AnimatedBackground'
+import KeyboardShortcutsModal from './components/KeyboardShortcutsModal'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
@@ -23,9 +24,22 @@ import CharacterPage from './pages/CharacterPage'
 import ArtistPage from './pages/ArtistPage'
 import NotFoundPage from './pages/NotFoundPage'
 import WatchPage from './pages/WatchPage'
+import WatchPartyPage from './pages/WatchPartyPage'
+import ProfilePage from './pages/ProfilePage'
+import SocialPage from './pages/SocialPage'
+import GuildBrowserPage from './pages/GuildBrowserPage'
+import GuildDetailPage from './pages/GuildDetailPage'
+import LeaderboardPage from './pages/LeaderboardPage'
+import ShopPage from './pages/ShopPage'
+import FriendsPage from './pages/FriendsPage'
+import NotificationsPage from './pages/NotificationsPage'
+import AchievementsPage from './pages/AchievementsPage'
+import InventoryPage from './pages/InventoryPage'
+import SettingsPage from './pages/SettingsPage'
+import OnboardingPage from './pages/OnboardingPage'
 import SearchModal from './components/SearchModal'
 import RouteProgressBar from './components/RouteProgressBar'
-import { CrownIcon, IconSearch } from './components/Icons'
+import { CrownIcon, IconSearch, IconUsers, IconShield, IconTrophy, IconShoppingBag, IconBell, IconUser, IconHome, IconSword, IconBook, IconMusic, IconTv } from './components/Icons'
 import { MusicProvider } from './context/MusicContext'
 import NowPlayingBar from './components/NowPlayingBar'
 import APlayerWrapper from './components/APlayerWrapper'
@@ -245,8 +259,10 @@ function MainLayout() {
     return localStorage.getItem('sidebar-collapsed') === 'true'
   })
   const [searchOpen, setSearchOpen] = useState(false)
+  const [shortcutsOpen, setShortcutsOpen] = useState(false)
   const { setLastValidRoute } = useMusic()
   const location = useLocation()
+  const navigate = useNavigate()
   
   const [navVisible, setNavVisible] = useState(true)
   const lastScrollY = useRef(0)
@@ -293,10 +309,27 @@ function MainLayout() {
   
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      const ctrl = e.ctrlKey || e.metaKey
+      // Ctrl+K → search
+      if (ctrl && e.key === 'k') {
         e.preventDefault()
         setSearchOpen(prev => !prev)
+        return
       }
+      // Ctrl+? → keyboard shortcuts
+      if (ctrl && e.key === '?') {
+        e.preventDefault()
+        setShortcutsOpen(prev => !prev)
+        return
+      }
+      // Only handle bare key shortcuts when not in an input/textarea
+      const tag = document.activeElement?.tagName?.toLowerCase()
+      if (tag === 'input' || tag === 'textarea' || document.activeElement?.isContentEditable) return
+      // G+key navigation chords
+      if (e.key === 'T' || e.key === 't') {
+        // T → cycle theme (handled in ThemeContext via Navbar button)
+      }
+      // R → random (handled in Navbar)
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
@@ -323,7 +356,7 @@ function MainLayout() {
 
         {/* Mobile Bottom Navigation */}
         <nav className={`mobile-bottom-nav ${navVisible ? '' : 'nav-hidden'}`}>
-          {NAV.slice(0, 4).map(item => {
+          {NAV.slice(0, 3).map(item => {
             const Icon = item.icon
             const isActive = checkActive(item.to)
             return (
@@ -333,9 +366,13 @@ function MainLayout() {
               </Link>
             )
           })}
-          <Link to="/login" className="mobile-nav-item">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
-            <span>Login</span>
+          <Link to="/social" className={`mobile-nav-item ${location.pathname === '/social' ? 'active' : ''}`}>
+            <IconUsers size={20} />
+            <span>Social</span>
+          </Link>
+          <Link to="/profile" className={`mobile-nav-item ${location.pathname.startsWith('/profile') ? 'active' : ''}`}>
+            <IconUser size={20} />
+            <span>Profile</span>
           </Link>
         </nav>
 
@@ -374,20 +411,48 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/onboarding" element={<OnboardingPage />} />
           <Route path="/manga/:slug/read/:chapterId" element={<MangaReadPage />} />
           <Route element={<MainLayout />}>
+            {/* ── Core ─────────────────────────────────────────── */}
             <Route path="/" element={<HomePage />} />
             <Route path="/browse" element={<BrowseRedirect />} />
             <Route path="/browse/music" element={<MusicPage />} />
             <Route path="/browse/:type" element={<BrowsePage />} />
             <Route path="/music/:slug/:themeKey" element={<MusicDetailPage />} />
             <Route path="/watch/:slug" element={<div className="watch-page-placeholder" style={{minHeight: '100vh'}}></div>} />
+
+            {/* ── Content detail pages ──────────────────────────── */}
             <Route path="/anime/:slug" element={<AnimeDetailPage />} />
             <Route path="/manga/:slug" element={<MangaDetailPage />} />
             <Route path="/producer/:id" element={<ProducerPage />} />
             <Route path="/person/:id" element={<PersonPage />} />
             <Route path="/character/:id" element={<CharacterPage />} />
             <Route path="/artist/:id" element={<ArtistPage />} />
+
+            {/* ── Community & Social ────────────────────────────── */}
+            <Route path="/social" element={<SocialPage />} />
+            <Route path="/friends" element={<FriendsPage />} />
+            <Route path="/notifications" element={<NotificationsPage />} />
+
+            {/* ── Guilds ────────────────────────────────────────── */}
+            <Route path="/guilds" element={<GuildBrowserPage />} />
+            <Route path="/guilds/:id" element={<GuildDetailPage />} />
+
+            {/* ── Leaderboard & Shop ────────────────────────────── */}
+            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+
+            {/* ── Watch Party ───────────────────────────────────── */}
+            <Route path="/watch-party" element={<WatchPartyPage />} />
+
+            {/* ── User profile & account ────────────────────────── */}
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile/:username" element={<ProfilePage />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/inventory" element={<InventoryPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

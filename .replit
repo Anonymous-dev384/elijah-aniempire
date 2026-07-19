@@ -65,4 +65,4 @@ externalPort = 3001
 [userenv]
 
 [userenv.shared]
-VITE_API_BASE_URL = "later"
+VITE_API_BASE_URL = "/api"

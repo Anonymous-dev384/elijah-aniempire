@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { getRandomAnime, generateDetailUrl } from '../services/api'
-import { CrownIcon, IconSearch, IconLock, IconUser, IconShuffle, IconBell } from './Icons'
-import { NAV, NAV_COMMUNITY } from './navConfig'
+import { CrownIcon, IconSearch, IconLock, IconUser, IconShuffle, IconBell, IconSettings, IconKeyboard } from './Icons'
+import { NAV, NAV_COMMUNITY, NAV_USER } from './navConfig'
 import { useTheme } from '../context/ThemeContext'
 import { useRPGStore } from '../store/rpgStore'
 
@@ -130,12 +130,34 @@ export default function Navbar({ collapsed, setCollapsed, onOpenSearch }) {
         <div style={{ flex: 1 }} />
         <div className="sidebar-bottom-sep" />
 
+        {/* ── User section ──────────────────────────────────────────── */}
+        {!collapsed && <div className="sidebar-label">MY ACCOUNT</div>}
+        <nav className="sidebar-nav">
+          {NAV_USER.map(item => {
+            const Icon = item.icon
+            const isActive = checkActive(item.to)
+            return (
+              <Link
+                key={item.label}
+                to={item.to}
+                className={`nav-link${isActive ? ' active' : ''}`}
+                title={collapsed ? item.label : undefined}
+              >
+                <Icon size={18} />
+                {!collapsed && <span>{item.label}</span>}
+              </Link>
+            )
+          })}
+        </nav>
+
+        <div className="sidebar-bottom-sep" />
+
         <div className="sidebar-auth">
           {/* Theme toggle */}
           <button
             className="sidebar-theme-btn"
             onClick={cycleTheme}
-            title={`Theme: ${theme} (click to cycle)`}
+            title={`Theme: ${theme} — click to cycle`}
           >
             <span className="theme-icon">{themeIcons[theme]}</span>
             {!collapsed && <span className="theme-label">{theme.toUpperCase()} MODE</span>}

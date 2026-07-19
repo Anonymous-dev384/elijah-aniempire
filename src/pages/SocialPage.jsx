@@ -26,7 +26,7 @@ const FEED_POSTS = [
     id: 2, type: 'review_written', username: 'NeonKaito', initial: 'N', faction: 'cyber', time: '3h ago',
     action: 'wrote a review',
     anime: 'Cyberpunk: Edgerunners',
-    excerpt: '"This show redefined what anime can be in 2022. David's arc is one of the most tragic and compelling stories I've ever witnessed in any medium…"',
+    excerpt: `"This show redefined what anime can be in 2022. David's arc is one of the most tragic and compelling stories I've ever witnessed in any medium…"`,
     likes: 61, comments: 14,
   },
   {

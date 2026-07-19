@@ -1,0 +1,2 @@
+- [AniEmpire routing & icons](aniempire-routing-icons.md) — all community/RPG routes wired; missing icon imports cause blank pages
+- [AniEmpire API proxy](aniempire-api-proxy.md) — VITE_API_BASE_URL must be /api (proxied to localhost:4000); never leave as placeholder
